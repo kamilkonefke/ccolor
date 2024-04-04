@@ -1,52 +1,31 @@
 use clap::Parser;
 use colored::Colorize;
 
-#[derive(Parser, Debug)]
-#[command(author, version, about)]
-pub struct Args {
-    /// Get color information.
-    #[arg(short, long)]
-    info: String,
-}
+use color::Color;
+mod color;
 
-pub struct Color {
-    r: i32,
-    g: i32,
-    b: i32,
+/// ccolor is a simple program to convert hexadecimal colors to other formats.
+#[derive(Parser)]
+#[command(author = "Kamil Konefke", version)]
+pub struct Cli {
+    /// convert color to other formats
+    #[arg(short, long, value_name = "HEX")]
+    convert: Option<String>,
 }
 
 fn main() {
-    let args = Args::parse();
+    let args = Cli::parse();
 
-    let output = hex_to_rgb(&args.info);
-
-    println!("Hex: #{}", &args.info);
+    let color = Color::from_hex(&args.convert.expect("err"));
 
     // RGB output
-    print!(" R: {}", output.r.to_string().red());
-    print!(" G: {}", output.g.to_string().green());
-    print!(" B: {}", output.b.to_string().blue());
-}
+    print!(" R: {}", color.get_red().to_string().red());
+    print!(" G: {}", color.get_green().to_string().green());
+    print!(" B: {}", color.get_blue().to_string().blue());
 
-fn hex_to_rgb(hex: &str) -> Color {
-
-    let color = split_hex(hex);
-
-    Color {
-        r: i32::from_str_radix(color[0].as_str(), 16).expect("err"),
-        g: i32::from_str_radix(color[1].as_str(), 16).expect("err"),
-        b: i32::from_str_radix(color[2].as_str(), 16).expect("err"),
-    }
-}
-
-fn hex_to_float(hex: &str) -> Color {
-    todo!();
-}
-
-fn split_hex(hex: &str) -> Vec<String> {
-    vec![
-        hex.get(0..2).unwrap().to_string(),
-        hex.get(2..4).unwrap().to_string(),
-        hex.get(4..6).unwrap().to_string(),
-    ]
+    println!(" ");
+    // normalize output
+    print!(" R: {}", (color.get_red() as f32 / 255.0).to_string().red());
+    print!(" G: {}", (color.get_green()  as f32 / 255.0).to_string().green());
+    print!(" B: {}", (color.get_blue()  as f32 / 255.0).to_string().blue());
 }
