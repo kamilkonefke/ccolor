@@ -4,7 +4,7 @@ use colored::Colorize;
 use color::Color;
 mod color;
 
-/// ccolor is a simple program to convert hexadecimal colors to other formats.
+/// ccolor is a simple program to convert hexadecimal color format to other formats.
 #[derive(Parser)]
 #[command(author, version)]
 pub struct Cli {
