@@ -6,7 +6,7 @@ mod color;
 
 /// ccolor is a simple program to convert hexadecimal colors to other formats.
 #[derive(Parser)]
-#[command(author = "Kamil Konefke", version)]
+#[command(author, version)]
 pub struct Cli {
     /// convert color to other formats
     #[arg(short, long, value_name = "HEX")]
@@ -15,8 +15,11 @@ pub struct Cli {
 
 fn main() {
     let args = Cli::parse();
+    let args_value = &args.convert.expect("err");
 
-    let color = Color::from_hex(&args.convert.expect("err"));
+    let color = Color::from_hex(args_value);
+
+    println!("{}", format!("{}{}", " #", args_value));
 
     // RGB output
     print!(" R: {}", color.get_red().to_string().red());
