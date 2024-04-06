@@ -19,10 +19,13 @@ fn main() {
 
     let color = Color::from_hex(args_value);
 
-    println!("{}", format!("{}{}{}{}", " #", 
-        args_value[0..2].to_string().red(), 
-        args_value[2..4].to_string().green(), 
-        args_value[4..6].to_string().blue(), 
+    println!("{}", format!("{}", 
+        " Preview: █████".truecolor(color.get_red(), color.get_green(), color.get_blue())
+    ));
+
+    println!("{}", format!("{}{}", 
+        " Hex: #".truecolor(color.get_red(), color.get_green(), color.get_blue()), 
+        args_value.truecolor(color.get_red(), color.get_green(), color.get_blue())
     ));
 
     // RGB output
