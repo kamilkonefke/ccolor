@@ -19,7 +19,11 @@ fn main() {
 
     let color = Color::from_hex(args_value);
 
-    println!("{}", format!("{}{}", " #", args_value));
+    println!("{}", format!("{}{}{}{}", " #", 
+        args_value[0..2].to_string().red(), 
+        args_value[2..4].to_string().green(), 
+        args_value[4..6].to_string().blue(), 
+    ));
 
     // RGB output
     print!(" R: {}", color.get_red().to_string().red());
